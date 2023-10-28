@@ -1,8 +1,10 @@
+import './App.css';
+
 function App() {
   return (
-    <div>
+    <div class="App">
       <header>
-        Hello World!
+        <h2>Upload Video</h2>
       </header>
     </div>
   );
