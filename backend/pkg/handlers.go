@@ -10,8 +10,3 @@ import (
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
-
-// test setup
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, world!"))
-}
