@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"shortformunifier/config"
+	"strings"
 	"time"
 
 	"golang.org/x/oauth2"
@@ -17,32 +18,26 @@ import (
 )
 
 func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader) error {
-	config := &oauth2.Config{
-		ClientID:     cfg.YoutubeClientID,
-		ClientSecret: cfg.YoutubeClientSecret,
-		RedirectURL:  "http://localhost",
-		Scopes:       []string{"https://www.googleapis.com/auth/youtube.upload"},
-		Endpoint:     google.Endpoint,
-	}
-
-	// Start the OAuth2 flow
-	authURL := config.AuthCodeURL("state", oauth2.AccessTypeOffline)
-	fmt.Printf("Visit the URL for the auth dialog: %v\n", authURL)
-
-	var code string
-	fmt.Print("Enter authorization code: ")
-	fmt.Scan(&code)
-
-	// Exchange the authorization code for a token
-	token, err := config.Exchange(context.Background(), code)
+	config := setupYoutubeConfig(cfg)
+	token, err := loadTokenFromRefreshToken(config, request.Context())
 	if err != nil {
-		fmt.Printf("Error exchanging token: %v\n", err)
+		fmt.Printf("Error loading token: %v\n", err)
 		return err
 	}
 
-	// Save the token to a file or database for future use
-	tokenJSON, _ := json.Marshal(token)
-	ioutil.WriteFile("token.json", tokenJSON, 0644)
+	// Handle token expiry
+	if err != nil && strings.Contains(err.Error(), "Token expired") {
+		newToken, err := refreshAccessToken(config, token.RefreshToken)
+		if err != nil {
+			fmt.Printf("Error refreshing token: %v\n", err)
+			return err
+		}
+		token = newToken
+
+		// Save the updated token
+		tokenJSON, _ := json.Marshal(token)
+		ioutil.WriteFile("token.json", tokenJSON, 0644)
+	}
 
 	client := config.Client(context.Background(), token)
 
@@ -74,6 +69,47 @@ func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Requ
 
 	fmt.Printf("Upload successful! Video ID: %v\n", response.Id)
 	return nil
+}
+
+func loadTokenFromRefreshToken(config *oauth2.Config, ctx context.Context) (*oauth2.Token, error) {
+	// Load token from a file or database
+	tokenJSON, err := ioutil.ReadFile("token.json")
+	if err != nil {
+		return nil, err
+	}
+
+	var token oauth2.Token
+	err = json.Unmarshal(tokenJSON, &token)
+	if err != nil {
+		return nil, err
+	}
+
+	return &token, nil
+}
+
+func refreshAccessToken(config *oauth2.Config, refreshToken string) (*oauth2.Token, error) {
+	ctx := context.Background()
+	token := &oauth2.Token{
+		RefreshToken: refreshToken,
+		Expiry:       time.Now(), // Forces refresh
+	}
+
+	newToken, err := config.TokenSource(ctx, token).Token()
+	if err != nil {
+		return nil, err
+	}
+
+	return newToken, nil
+}
+
+func setupYoutubeConfig(cfg *config.Config) *oauth2.Config {
+	return &oauth2.Config{
+		ClientID:     cfg.YoutubeClientID,
+		ClientSecret: cfg.YoutubeClientSecret,
+		RedirectURL:  "http://localhost",
+		Scopes:       []string{"https://www.googleapis.com/auth/youtube.upload"},
+		Endpoint:     google.Endpoint,
+	}
 }
 
 // Types for Youtube API
