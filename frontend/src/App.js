@@ -1,11 +1,12 @@
 import './App.css';
+import { DropVideoSection } from './components/DropVideoSection';
+import { Header } from './components/Header';
 
 function App() {
   return (
     <div class="App">
-      <header>
-        <h2>Upload Video</h2>
-      </header>
+      <Header></Header>
+      <DropVideoSection></DropVideoSection>
     </div>
   );
 }
