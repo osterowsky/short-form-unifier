@@ -23,5 +23,7 @@ func NewConfig() (*Config, error) {
 }
 
 type Config struct {
-	YoutubeAPIKey string `env:"YOUTUBE_API_KEY"`
+	YoutubeAPIKey       string `env:"YOUTUBE_API_KEY"`
+	YoutubeClientID     string `env:"YOUTUBE_CLIENT_ID"`
+	YoutubeClientSecret string `env:"YOUTUBE_CLIENT_SECRET"`
 }

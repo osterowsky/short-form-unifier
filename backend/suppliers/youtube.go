@@ -2,22 +2,54 @@ package suppliers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"shortformunifier/config"
 	"time"
 
-	"google.golang.org/api/option"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 	"google.golang.org/api/youtube/v3"
 )
 
 func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader) error {
-	ctx := context.Background()
-	youtubeService, err := youtube.NewService(ctx, option.WithAPIKey(cfg.YoutubeAPIKey))
+	config := &oauth2.Config{
+		ClientID:     cfg.YoutubeClientID,
+		ClientSecret: cfg.YoutubeClientSecret,
+		RedirectURL:  "http://localhost",
+		Scopes:       []string{"https://www.googleapis.com/auth/youtube.upload"},
+		Endpoint:     google.Endpoint,
+	}
+
+	// Start the OAuth2 flow
+	authURL := config.AuthCodeURL("state", oauth2.AccessTypeOffline)
+	fmt.Printf("Visit the URL for the auth dialog: %v\n", authURL)
+
+	var code string
+	fmt.Print("Enter authorization code: ")
+	fmt.Scan(&code)
+
+	// Exchange the authorization code for a token
+	token, err := config.Exchange(context.Background(), code)
 	if err != nil {
-		log.Fatalf("Error creating YouTube client: %v", err)
+		fmt.Printf("Error exchanging token: %v\n", err)
+		return err
+	}
+
+	// Save the token to a file or database for future use
+	tokenJSON, _ := json.Marshal(token)
+	ioutil.WriteFile("token.json", tokenJSON, 0644)
+
+	client := config.Client(context.Background(), token)
+
+	youtubeService, err := youtube.New(client)
+	if err != nil {
+		fmt.Printf("Error creating YouTube client: %v\n", err)
+		return err
 	}
 
 	YouTubeRequest := &youtube.Video{
