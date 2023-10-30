@@ -4,26 +4,31 @@ import { React, useState } from "react";
 export function DropVideoSection() {
 
     const [selectedFile, setSelectedFile] = useState(null);
+    const [fileURL, setFileURL] = useState(null);
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
-        setSelectedFile(URL.createObjectURL(file));
+        setSelectedFile(file);
+        setFileURL(URL.createObjectURL(file));
     };
 
     const sendVideo = () => {
         const formData = new FormData();
-        formData.append('file', selectedFile);
+        console.log(selectedFile)
+        formData.append('video', selectedFile);
         fetch('http://localhost:8080/upload', {
             method: 'POST',
+            mode: no-cors,
             body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        }).then(function (res) {
+            if (res.ok) {
+              alert("Perfect! ");
+            } else if (res.status == 401) {
+              alert("Oops! ");
+            }
+          }, function (e) {
+            alert("Error submitting form!");
+          });
     };
 
     return (
@@ -44,7 +49,7 @@ export function DropVideoSection() {
 
             <div className="GridWrapper">
                 <div className="VideoDisplay">
-                    <video src={selectedFile} controls></video>
+                    <video src={fileURL} controls></video>
                 </div>
                 <div className='VideoUpload'>
                 </div>
