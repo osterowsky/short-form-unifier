@@ -27,3 +27,8 @@ require (
 	google.golang.org/grpc v1.58.3 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 )
+
+require (
+	github.com/caarlos0/env/v6 v6.10.1 // direct
+	github.com/joho/godotenv v1.5.1 // direct
+)

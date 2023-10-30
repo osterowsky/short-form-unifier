@@ -6,15 +6,16 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"shortformunifier/config"
 	"time"
 
+	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
 
-func UploadYoutube(w http.ResponseWriter, request *http.Request, file io.Reader) error {
-	// Get youtube client
+func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader) error {
 	ctx := context.Background()
-	youtubeService, err := youtube.NewService(ctx)
+	youtubeService, err := youtube.NewService(ctx, option.WithAPIKey(cfg.YoutubeAPIKey))
 	if err != nil {
 		log.Fatalf("Error creating YouTube client: %v", err)
 	}

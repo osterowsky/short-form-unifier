@@ -9,9 +9,8 @@ import (
 )
 
 func main() {
-	// We start the server running
+	// We setup thr server
 	r := pkg.SetUpServer()
-
 	pkg.SetUpRoutes(r)
 
 	c := cors.Default().Handler(r)
