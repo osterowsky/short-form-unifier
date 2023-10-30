@@ -1,34 +1,34 @@
 import './DropVideoSection.css';
-import React, { useState } from 'react';
-import { Upload, Button } from "antd";
+import { React, useState } from "react";
 
 export function DropVideoSection() {
-    const [videoSrc , seVideoSrc] = useState("");
 
-    const handleChange = ({file}) => {
-        var url = URL.createObjectURL(file.originFileObj);
-        seVideoSrc(url);
-    };
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(URL.createObjectURL(file));
+      };
 
     return (
         <div className="VideoSection">
+
             <div className="UploadButton">
-                <Upload className="mt-3 mb-3"
-                    accept=".mp4"
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    listType="picture"
-                    maxCount={1}
-                    onChange={handleChange}
-                    >
-                    <Button>
-                    Upload Video
-                    </Button>
-                </Upload>
+                <button>
+                    <label htmlFor="fileUpload">Upload Video</label>
+                    <input
+                    type="file"
+                    id="fileUpload"
+                    accept="video/*"  // Accept only video files
+                    onChange={handleFileUpload}
+                    style={{ display: 'none' }}
+                    />
+                </button>
             </div>
 
             <div className="GridWrapper">
                 <div className="VideoDisplay">
-                    <video src={videoSrc} controls></video>
+                    <video src={selectedFile} controls></video>
                 </div>
                 <div className='VideoUpload'>
                 </div>

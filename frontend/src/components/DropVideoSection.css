@@ -2,7 +2,19 @@
     padding: 30px;
     align-items: center;
     justify-content: center;
-    display: flex;}
+    display: flex;
+}
+
+button {
+    padding: 15px;
+    border-radius: 10px;
+    border: dashed;
+    background-color: rgba(255, 255, 255, 0.803);
+}
+
+button:hover {
+    opacity: 80%;
+}
 
 .GridWrapper {
     padding: 20px;
