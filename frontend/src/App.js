@@ -4,7 +4,7 @@ import { Header } from './components/Header';
 
 function App() {
   return (
-    <div class="App">
+    <div className="App">
       <Header></Header>
       <DropVideoSection></DropVideoSection>
     </div>
