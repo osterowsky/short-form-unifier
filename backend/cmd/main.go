@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"shortformunifier/pkg"
+
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -12,6 +14,6 @@ func main() {
 
 	pkg.SetUpRoutes(r)
 
-	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	c := cors.Default().Handler(r)
+	log.Fatal(http.ListenAndServe(":8080", c))
 }

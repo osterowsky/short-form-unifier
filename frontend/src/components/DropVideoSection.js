@@ -8,7 +8,23 @@ export function DropVideoSection() {
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         setSelectedFile(URL.createObjectURL(file));
-      };
+    };
+
+    const sendVideo = () => {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        fetch('http://localhost:8080/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
 
     return (
         <div className="VideoSection">
@@ -32,6 +48,12 @@ export function DropVideoSection() {
                 </div>
                 <div className='VideoUpload'>
                 </div>
+            </div>
+
+            <div className="UploadButton">
+                <button onClick={sendVideo}>
+                    <label>Upload</label>
+                </button>
             </div>
         </div>
     )
