@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"net/http"
+	s "shortformunifier/suppliers"
 )
 
 // We first just will test for Youtube and focus on that
@@ -14,6 +15,13 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer file.Close()
+
+	// We are ready to send video for youtube
+	err = s.UploadYoutube(w, r, &file)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("File uploaded successfully"))

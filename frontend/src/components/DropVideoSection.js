@@ -18,13 +18,13 @@ export function DropVideoSection() {
         formData.append('video', selectedFile);
         fetch('http://localhost:8080/upload', {
             method: 'POST',
-            mode: no-cors,
+            mode: 'no-cors', // no-cors, *cors, same-origin
             body: formData
         }).then(function (res) {
             if (res.ok) {
-              alert("Perfect! ");
-            } else if (res.status == 401) {
-              alert("Oops! ");
+              alert("Perfect!");
+            } else if (res.status === 401) {
+              alert("Oops!");
             }
           }, function (e) {
             alert("Error submitting form!");
