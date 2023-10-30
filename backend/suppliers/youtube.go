@@ -2,21 +2,45 @@ package suppliers
 
 import (
 	"context"
-	"mime/multipart"
+	"fmt"
+	"io"
+	"log"
 	"net/http"
 	"time"
 
 	"google.golang.org/api/youtube/v3"
 )
 
-func UploadYoutube(w http.ResponseWriter, request *http.Request, file *multipart.File) error {
-
+func UploadYoutube(w http.ResponseWriter, request *http.Request, file io.Reader) error {
 	// Get youtube client
 	ctx := context.Background()
 	youtubeService, err := youtube.NewService(ctx)
-	youtubeService.Videos.Insert([]string{"snippet,status"}, nil)
+	if err != nil {
+		log.Fatalf("Error creating YouTube client: %v", err)
+	}
 
-	return err
+	YouTubeRequest := &youtube.Video{
+		Snippet: &youtube.VideoSnippet{
+			Title:       "Test",
+			Description: "Test",
+			Tags:        []string{"test", "test2"},
+		},
+		Status: &youtube.VideoStatus{
+			PrivacyStatus: "private",
+		},
+	}
+
+	call := youtubeService.Videos.Insert([]string{"snippet,status"}, YouTubeRequest)
+
+	// We need to modify to youtube file
+
+	response, err := call.Media(file).Do()
+	if err != nil {
+		log.Fatalf("Error creating YouTube client: %v", err)
+	}
+
+	fmt.Printf("Upload successful! Video ID: %v\n", response.Id)
+	return nil
 }
 
 // Types for Youtube API

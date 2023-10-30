@@ -17,7 +17,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 
 	// We are ready to send video for youtube
-	err = s.UploadYoutube(w, r, &file)
+	err = s.UploadYoutube(w, r, file)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
