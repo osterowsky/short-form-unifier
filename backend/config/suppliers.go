@@ -8,12 +8,10 @@ type UploadVideoRequest struct {
 	YouTubeConfig YouTubeSettings `json:"youtube,omitempty"`
 }
 
-// Specific fields for TikTok uploads
 type TikTokSettings struct {
 	DisableDuet bool `json:"disable_duet,omitempty"`
 }
 
-// Specific fields for YouTube uploads
 type YouTubeSettings struct {
 	Description string   `json:"description,omitempty"`
 	Tags        []string `json:"tags,omitempty"`

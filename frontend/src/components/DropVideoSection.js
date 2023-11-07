@@ -5,6 +5,10 @@ export function DropVideoSection() {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileURL, setFileURL] = useState(null);
+    const [title, setTitle] = useState("");
+    const [PrivacyLevel, setPrivacyLevel] = useState("");
+    const [youtubeDescription, setYoutubeDescription] = useState("");
+    const [youtubeTags, setYoutubeTags] = useState("");
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -13,9 +17,28 @@ export function DropVideoSection() {
     };
 
     const sendVideo = () => {
+        // Check if a file is selected
+        if (!selectedFile) {
+            alert("Please select a file first.");
+            return;
+        }
+
+        const videoData = {
+            title: title,
+            privacy_level: PrivacyLevel,
+            tiktok: {
+                disable_duet: false,
+            },
+            youtube: {
+                description: youtubeDescription,
+                tags: youtubeTags.split(',').map(tag => tag.trim()), // Split tags and trim whitespace
+            },
+        };
+
         const formData = new FormData();
-        console.log(selectedFile)
         formData.append('video', selectedFile);
+        formData.append('data', JSON.stringify(videoData)); // 'data' is the key for the JSON payload
+
         fetch('http://localhost:8080/upload', {
             method: 'POST',
             mode: 'no-cors', // no-cors, *cors, same-origin
@@ -52,6 +75,38 @@ export function DropVideoSection() {
                     <video src={fileURL} controls></video>
                 </div>
                 <div className='VideoUpload'>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Video Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Privacy Level"
+                            value={PrivacyLevel}
+                            onChange={(e) => setPrivacyLevel(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="YouTube Description"
+                            value={youtubeDescription}
+                            onChange={(e) => setYoutubeDescription(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="YouTube Tags (comma-separated)"
+                            value={youtubeTags}
+                            onChange={(e) => setYoutubeTags(e.target.value)}
+                        />
+                    </div>
                 </div>
             </div>
 

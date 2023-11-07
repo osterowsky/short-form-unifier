@@ -9,6 +9,7 @@ import (
 
 // UploadHandler handles the upload of the video for all suppliers
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
+	var videoReq config.UploadVideoRequest
 
 	cfg, err := config.NewConfig()
 	if err != nil {
@@ -23,8 +24,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	var videoReq config.UploadVideoRequest
-	if err := json.NewDecoder(r.Body).Decode(&videoReq); err != nil {
+	jsonData := r.FormValue("data")
+	if err := json.Unmarshal([]byte(jsonData), &videoReq); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
