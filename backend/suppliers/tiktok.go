@@ -11,7 +11,7 @@ import (
 )
 
 // https://developers.tiktok.com/doc/content-posting-api-reference-direct-post/
-func UploadTiktok(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader, videoReq *config.VideoRequest) error {
+func UploadTiktok(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader, videoReq *config.UploadVideoRequest) error {
 	// Read the video content from the io.Reader
 	videoContent, err := ioutil.ReadAll(file)
 	if err != nil {

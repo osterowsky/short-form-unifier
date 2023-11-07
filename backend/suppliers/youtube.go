@@ -17,7 +17,7 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader, videoReq *config.VideoRequest) error {
+func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Request, file io.Reader, videoReq *config.UploadVideoRequest) error {
 	config := setupYoutubeConfig(cfg)
 	token, err := loadTokenFromRefreshToken(config, request.Context())
 	if err != nil {
@@ -47,13 +47,13 @@ func UploadYoutube(cfg *config.Config, w http.ResponseWriter, request *http.Requ
 		return err
 	}
 
-	ytSettings := videoReq.YoutubeConfig
+	youtubeConfig := videoReq.YouTubeConfig
 
 	YouTubeRequest := &youtube.Video{
 		Snippet: &youtube.VideoSnippet{
 			Title:       videoReq.Title,
-			Description: ytSettings.Description,
-			Tags:        ytSettings.Tags,
+			Description: youtubeConfig.Description,
+			Tags:        youtubeConfig.Tags,
 		},
 		Status: &youtube.VideoStatus{
 			PrivacyStatus: videoReq.PrivacyLevel,

@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"encoding/json"
 	"net/http"
 	"shortformunifier/config"
 	s "shortformunifier/suppliers"
@@ -22,13 +23,19 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
+	var videoReq config.UploadVideoRequest
+	if err := json.NewDecoder(r.Body).Decode(&videoReq); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// We are ready to send video for youtube
-	err = s.UploadYoutube(cfg, w, r, file, &config.VideoRequest{})
+	err = s.UploadYoutube(cfg, w, r, file, &videoReq)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 	// We also send video for tiktok
-	err = s.UploadTiktok(cfg, w, r, file, &config.VideoRequest{})
+	err = s.UploadTiktok(cfg, w, r, file, &videoReq)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
