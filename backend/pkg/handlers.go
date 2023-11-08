@@ -40,6 +40,11 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
+	// And lastly for instagram
+	err = s.UploadInstagram(cfg, w, r, file, &videoReq)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("File uploaded successfully"))
