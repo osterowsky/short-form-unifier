@@ -75,15 +75,26 @@ export function DropVideoSection() {
                     <video src={fileURL} controls></video>
                 </div>
                 <div className='VideoUpload'>
-                    <div>
+                    <div  className="videoInputContainer">
+                        <label >Title</label>
                         <input
                             type="text"
-                            placeholder="Video Title"
+                            placeholder="Best video in the world"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
                     <div>
+                        <label >Descrription</label>
+                        <input
+                            type="text"
+                            placeholder="This video is sick"
+                            value={youtubeDescription}
+                            onChange={(e) => setYoutubeDescription(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label >Privacy Level</label>
                         <input
                             type="text"
                             placeholder="Privacy Level"
@@ -92,17 +103,10 @@ export function DropVideoSection() {
                         />
                     </div>
                     <div>
+                        <label >Tags</label>
                         <input
                             type="text"
-                            placeholder="YouTube Description"
-                            value={youtubeDescription}
-                            onChange={(e) => setYoutubeDescription(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="YouTube Tags (comma-separated)"
+                            placeholder="your-mother,thatswhatshesaid,420"
                             value={youtubeTags}
                             onChange={(e) => setYoutubeTags(e.target.value)}
                         />
