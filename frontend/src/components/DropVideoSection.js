@@ -75,17 +75,18 @@ export function DropVideoSection() {
                     <video src={fileURL} controls></video>
                 </div>
                 <div className='VideoUpload'>
-                    <div  className="videoInputContainer">
-                        <label >Title</label>
+                    <div className="inputContainer">
+                        <label className="inputLabel">Title</label>
                         <input
                             type="text"
                             placeholder="Best video in the world"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            className="inputTextField"
                         />
                     </div>
-                    <div>
-                        <label >Descrription</label>
+                    <div className="inputContainer">
+                        <label className="inputLabel">Description</label>
                         <input
                             type="text"
                             placeholder="This video is sick"
@@ -93,8 +94,8 @@ export function DropVideoSection() {
                             onChange={(e) => setYoutubeDescription(e.target.value)}
                         />
                     </div>
-                    <div>
-                        <label >Privacy Level</label>
+                    <div className="inputContainer">
+                        <label className="inputLabel">Privacy Level</label>
                         <input
                             type="text"
                             placeholder="Privacy Level"
@@ -102,8 +103,8 @@ export function DropVideoSection() {
                             onChange={(e) => setPrivacyLevel(e.target.value)}
                         />
                     </div>
-                    <div>
-                        <label >Tags</label>
+                    <div className="inputContainer">
+                        <label className="inputLabel" >Tags</label>
                         <input
                             type="text"
                             placeholder="your-mother,thatswhatshesaid,420"

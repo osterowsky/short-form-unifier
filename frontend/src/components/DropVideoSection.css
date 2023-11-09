@@ -30,16 +30,10 @@ button:hover {
 }
 
 .VideoDisplay, .VideoUpload {
-    border-radius: 15px;
     justify-content: center;
     align-items: center;
     aspect-ratio: 9 / 16;
     max-height: 650px;
-}
-
-.VideoUpload {
-    border: solid black;
-    border-radius: 15px;
 }
 
 video {
@@ -48,3 +42,21 @@ video {
     height: 100%;
     border-radius: 15px;
 }
+
+/* Section for input fields */
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 25px;
+    padding: 10px;
+    border: solid black;
+    box-shadow: 4px 4px black;
+}
+
+.inputLabel {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+}
+
