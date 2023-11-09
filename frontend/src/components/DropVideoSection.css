@@ -52,7 +52,8 @@ video {
     padding: 20px;
     border: solid black;
     box-shadow: 4px 4px black;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
 }
 
 .inputLabel {
@@ -75,4 +76,8 @@ input, textarea {
 
 input::placeholder, textarea::placeholder {
     font-family: 'Roboto';
+}
+
+.fab {
+    margin: 4px;
 }

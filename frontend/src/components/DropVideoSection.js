@@ -76,7 +76,12 @@ export function DropVideoSection() {
                 </div>
                 <div className='VideoUpload'>
                     <div className="inputContainer">
-                        <label className="inputLabel">Title</label>
+                        <label className="inputLabel">
+                            Title
+                            <i className="fab fa-youtube"></i>
+                            <i className="fab fa-tiktok"></i>
+                            <i className="fab fa-instagram"></i>
+                        </label>
                         <input
                             type="text"
                             placeholder="Best video in the world"
@@ -86,7 +91,10 @@ export function DropVideoSection() {
                         />
                     </div>
                     <div className="inputContainer">
-                        <label className="inputLabel">Description</label>
+                        <label className="inputLabel">
+                            Description
+                            <i className="fab fa-youtube"></i>
+                            </label>
                         <textarea
                             rows={4}
                             placeholder="This video is sick"
@@ -95,7 +103,11 @@ export function DropVideoSection() {
                         />
                     </div>
                     <div className="inputContainer">
-                        <label className="inputLabel">Privacy Level</label>
+                        <label className="inputLabel">
+                            Privacy Level
+                            <i className="fab fa-youtube"></i>
+                            <i className="fab fa-tiktok"></i>
+                        </label>
                             <div>
                                 <input id="public" type="radio" name="privacyLevel" value="public" onChange={(e) => setPrivacyLevel(e.target.value)} />
                                 <label class="inputLabelRadio" htmlFor="public">Public</label>
@@ -106,7 +118,10 @@ export function DropVideoSection() {
                             </div>
                     </div>
                     <div className="inputContainer">
-                        <label className="inputLabel" >Tags</label>
+                        <label className="inputLabel">
+                            Tags
+                            <i className="fab fa-youtube"></i>
+                        </label>
                         <input
                             type="text"
                             placeholder="your-mother,thatswhatshesaid,420"
