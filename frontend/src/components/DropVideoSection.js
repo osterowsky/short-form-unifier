@@ -6,7 +6,7 @@ export function DropVideoSection() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileURL, setFileURL] = useState(null);
     const [title, setTitle] = useState("");
-    const [PrivacyLevel, setPrivacyLevel] = useState("");
+    const [PrivacyLevel, setPrivacyLevel] = useState("public");
     const [youtubeDescription, setYoutubeDescription] = useState("");
     const [youtubeTags, setYoutubeTags] = useState("");
 
@@ -87,8 +87,8 @@ export function DropVideoSection() {
                     </div>
                     <div className="inputContainer">
                         <label className="inputLabel">Description</label>
-                        <input
-                            type="text"
+                        <textarea
+                            rows={4}
                             placeholder="This video is sick"
                             value={youtubeDescription}
                             onChange={(e) => setYoutubeDescription(e.target.value)}
@@ -96,12 +96,14 @@ export function DropVideoSection() {
                     </div>
                     <div className="inputContainer">
                         <label className="inputLabel">Privacy Level</label>
-                        <input
-                            type="text"
-                            placeholder="Privacy Level"
-                            value={PrivacyLevel}
-                            onChange={(e) => setPrivacyLevel(e.target.value)}
-                        />
+                            <div>
+                                <input id="public" type="radio" name="privacyLevel" value="public" onChange={(e) => setPrivacyLevel(e.target.value)} />
+                                <label class="inputLabelRadio" htmlFor="public">Public</label>
+                            </div>
+                            <div>
+                                <input id="private" type="radio" name="privacyLevel" value="private" onChange={(e) => setPrivacyLevel(e.target.value)} />
+                                <label class="inputLabelRadio" for="private">Private</label>
+                            </div>
                     </div>
                     <div className="inputContainer">
                         <label className="inputLabel" >Tags</label>
